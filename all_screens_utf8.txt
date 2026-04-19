@@ -1,0 +1,74 @@
+﻿node : file:///C:/Users/
+mishr/OneDrive/Desktop/p
+oy/[eval1]:1
+At line:1 char:1
++ node -e "import { 
+stitch } from 
+'@google/stitch-sdk'; 
+async function  ...
++ ~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo      
+        : NotSpecified: 
+(f    
+ile:///C:/User...p/po   
+ y/[eval1]:1:String) [  
+  ], RemoteException
+    + 
+FullyQualifiedError    
+Id : NativeCommandErr   
+ or
+ 
+import { stitch } from 
+'@google/stitch-sdk'; 
+async function main() { 
+process.env.STITCH_API_K
+EY = 'AQ.Ab8RN6KRUQisa3q
+3DNqV93x-u0n00XKEYEdbFuo
+gVZuvUZVlWg'; const 
+project = stitch.project
+('6759477244955323139');
+ const screens = await 
+project.getScreens(); 
+screens.forEach(s => 
+console.log(s.name + ': 
+' + s.id)); } main();
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+                        
+^
+
+TypeError: 
+project.getScreens is 
+not a function
+    at main (file:///C:/
+Users/mishr/OneDrive/Des
+ktop/poy/[eval1]:1:241)
+    at file:///C:/Users/
+mishr/OneDrive/Desktop/p
+oy/[eval1]:1:314
+    at ModuleJob.run (no
+de:internal/modules/esm/
+module_job:413:25)
+    at async onImport.tr
+acePromise.__proto__ (no
+de:internal/modules/esm/
+loader:268:26)
+    at async ModuleLoade
+r.executeModuleJob (node
+:internal/modules/esm/lo
+ader:265:20)
+    at async asyncRunEnt
+ryPointWithESMLoader (no
+de:internal/modules/run_
+main:101:5)
+
+Node.js v24.13.0

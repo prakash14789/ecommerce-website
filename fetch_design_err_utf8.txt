@@ -1,0 +1,53 @@
+﻿Fetching screen...
+node : Error: 
+StitchError: Tool Call 
+Failed [get_screen]: 
+Requested entity was not 
+found.
+At line:1 char:1
++ node fetch.mjs > 
+fetch_design_err.txt 
+2>&1; Get-Content 
+fetch_design_ ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (E  
+  rror: StitchEr... was   
+  not found.:String) [    
+], RemoteException
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+    at StitchToolClient.pa
+rseToolResponse (file:///C
+:/Users/mishr/OneDrive/Des
+ktop/poy/node_modules/@goo
+gle/stitch-sdk/dist/src/cl
+ient.js:77:19)
+    at 
+StitchToolClient.callTool 
+(file:///C:/Users/mishr/On
+eDrive/Desktop/poy/node_mo
+dules/@google/stitch-sdk/d
+ist/src/client.js:121:21)
+    at process.processTick
+sAndRejections (node:inter
+nal/process/task_queues:10
+3:5)
+    at async 
+Project.getScreen (file://
+/C:/Users/mishr/OneDrive/D
+esktop/poy/node_modules/@g
+oogle/stitch-sdk/dist/gene
+rated/src/project.js:54:25
+)
+    at async main (file://
+/C:/Users/mishr/OneDrive/D
+esktop/poy/fetch.mjs:10:24
+) {
+  code: 'NOT_FOUND',
+  suggestion: undefined,
+  recoverable: false
+}

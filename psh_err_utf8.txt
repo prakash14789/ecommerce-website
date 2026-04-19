@@ -1,0 +1,62 @@
+﻿powershell : = : The term 
+'=' is not 
+At line:1 char:1
++ powershell -Command 
+"$urls = Get-Content 
+cart_urls.json | 
+ConvertFrom ...
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (=  
+   : The term '=' is no   
+ t :String) [], Remote    
+Exception
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+recognized as the name of 
+a cmdlet, function, 
+script file, or operable 
+program. Check the 
+spelling of the name, or 
+if a path was included, 
+verify that the path is 
+correct and try again.
+At line:1 char:2
++  = Get-Content 
+cart_urls.json | 
+ConvertFrom-Json; 
+Invoke-WebRequest - ...
++  ~
+    + CategoryInfo        
+      : ObjectNotFound:   
+  (=:String) [], Comman   
+ dNotFoundException
+    + FullyQualifiedError 
+   Id : CommandNotFoundE  
+  xception
+ 
+Invoke-WebRequest : 
+Invalid URI: The hostname 
+could not be parsed.
+At line:1 char:51
++ ... tFrom-Json; 
+Invoke-WebRequest -Uri 
+.html -OutFile 
+tmp_assets\checkout ...
++                 ~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (:  
+  ) [Invoke-WebRequest]   
+ , UriFormatException
+    + FullyQualifiedError 
+   Id : System.UriFormat  
+  Exception,Microsoft.P   
+ owerShell.Commands.In    
+vokeWebRequestCommand
+ 

@@ -1,0 +1,98 @@
+[
+  {
+    "id": 1,
+    "name": "Noir Wool Overcoat",
+    "description": "A tailored charcoal wool coat with a minimalist silhouette and structured shoulders.",
+    "category": "Outerwear",
+    "price": "890.00",
+    "discount": "0.00",
+    "final_price": "890.00",
+    "image_url": "https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=400&q=80",
+    "stock": 42,
+    "created_at": "2026-04-02T14:43:22.523Z"
+  },
+  {
+    "id": 2,
+    "name": "Obsidian Leather Duffel",
+    "description": "Full-grain leather duffel in midnight black with brass hardware.",
+    "category": "Leather Goods",
+    "price": "1250.00",
+    "discount": "0.00",
+    "final_price": "1250.00",
+    "image_url": "https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=400&q=80",
+    "stock": 3,
+    "created_at": "2026-04-02T14:43:22.551Z"
+  },
+  {
+    "id": 3,
+    "name": "Merlot Silk Slip Dress",
+    "description": "Bias-cut silk slip in deep merlot, draped with effortless precision.",
+    "category": "Dresses",
+    "price": "420.00",
+    "discount": "19.00",
+    "final_price": "340.20",
+    "image_url": "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=400&q=80",
+    "stock": 18,
+    "created_at": "2026-04-02T14:43:22.554Z"
+  },
+  {
+    "id": 4,
+    "name": "Steel Chrono Watch",
+    "description": "Swiss-movement chronograph with sapphire crystal and black leather strap.",
+    "category": "Accessories",
+    "price": "595.00",
+    "discount": "0.00",
+    "final_price": "595.00",
+    "image_url": "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&q=80",
+    "stock": 56,
+    "created_at": "2026-04-02T14:43:22.558Z"
+  },
+  {
+    "id": 5,
+    "name": "Calfskin Derby Shoes",
+    "description": "Hand-stitched calfskin derbies in cognac with a leather sole.",
+    "category": "Footwear",
+    "price": "680.00",
+    "discount": "10.00",
+    "final_price": "612.00",
+    "image_url": "https://images.unsplash.com/photo-1614252235316-8c857d38b5f4?w=400&q=80",
+    "stock": 27,
+    "created_at": "2026-04-02T14:43:22.560Z"
+  },
+  {
+    "id": 6,
+    "name": "Cashmere Turtleneck",
+    "description": "Grade-A cashmere ribbed turtleneck in ivory with a relaxed silhouette.",
+    "category": "Knitwear",
+    "price": "345.00",
+    "discount": "0.00",
+    "final_price": "345.00",
+    "image_url": "https://images.unsplash.com/photo-1581803118522-7b72a50f7e9f?w=400&q=80",
+    "stock": 0,
+    "created_at": "2026-04-02T14:43:22.562Z"
+  },
+  {
+    "id": 7,
+    "name": "Hammered Gold Cuff",
+    "description": "Hand-hammered 18k gold-plated brass cuff with a raw, sculptural finish.",
+    "category": "Jewellery",
+    "price": "220.00",
+    "discount": "0.00",
+    "final_price": "220.00",
+    "image_url": "https://images.unsplash.com/photo-1611591437281-460bfbe1220a?w=400&q=80",
+    "stock": 15,
+    "created_at": "2026-04-02T14:43:22.563Z"
+  },
+  {
+    "id": 8,
+    "name": "Linen Blazer — Chalk",
+    "description": "Unstructured linen blazer in chalk white. Relaxed Italian cut.",
+    "category": "Outerwear",
+    "price": "490.00",
+    "discount": "15.00",
+    "final_price": "416.50",
+    "image_url": "https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=400&q=80",
+    "stock": 9,
+    "created_at": "2026-04-02T14:43:22.567Z"
+  }
+]
