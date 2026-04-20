@@ -19,6 +19,9 @@ export default function ManageProducts() {
     image_url: ''
   });
 
+  const [isEditing, setIsEditing] = useState(false);
+  const [editingId, setEditingId] = useState(null);
+
   const filters = ['All Pieces', 'Outerwear', 'Accessories', 'Footwear', 'Leather Goods', 'Knitwear', 'Jewellery', 'Dresses'];
 
   useEffect(() => {
@@ -42,8 +45,14 @@ export default function ManageProducts() {
   const handleAddProduct = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch('http://localhost:5000/api/products', {
-        method: 'POST',
+      const url = isEditing 
+        ? `http://localhost:5000/api/products/${editingId}`
+        : 'http://localhost:5000/api/products';
+      
+      const method = isEditing ? 'PUT' : 'POST';
+
+      const response = await fetch(url, {
+        method,
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...newProduct,
@@ -55,15 +64,66 @@ export default function ManageProducts() {
       });
 
       if (response.ok) {
-        showToast('Acquisition Archived Successfully');
+        showToast(isEditing ? 'Archive Entry Revised' : 'Acquisition Archived Successfully');
         fetchProducts();
         setNewProduct({ name: '', category: 'Outerwear', price: '', stock: '', discount: 0, description: '', image_url: '' });
+        setIsEditing(false);
+        setEditingId(null);
       } else {
         const err = await response.json();
-        showToast(err.message || 'Failed to add product');
+        showToast(err.message || 'Failed to process request');
       }
     } catch (err) {
       showToast('Backend Synchronization Failure');
+    }
+  };
+
+  const handleDeleteProduct = async (id) => {
+    if (!window.confirm('Are you sure you want to remove this piece from the collection?')) return;
+    try {
+      const response = await fetch(`http://localhost:5000/api/products/${id}`, {
+        method: 'DELETE'
+      });
+      if (response.ok) {
+        showToast('Piece Removed from Collection');
+        fetchProducts();
+      } else {
+        showToast('Removal Failed');
+      }
+    } catch (err) {
+      showToast('Synchronization Error');
+    }
+  };
+
+  const handleEditClick = (p) => {
+    setNewProduct({
+      name: p.name,
+      category: p.category,
+      price: p.price,
+      stock: p.stock,
+      discount: p.discount,
+      description: p.description,
+      image_url: p.image_url
+    });
+    setIsEditing(true);
+    setEditingId(p.id);
+    document.getElementById('add-form').scrollIntoView({ behavior: 'smooth' });
+  };
+
+  const handleCleanupDuplicates = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/products/cleanup', {
+        method: 'POST'
+      });
+      const data = await response.json();
+      if (response.ok) {
+        showToast(data.message);
+        fetchProducts();
+      } else {
+        showToast('Cleanup failed');
+      }
+    } catch (err) {
+      showToast('Cleanup sync failure');
     }
   };
 
@@ -145,12 +205,24 @@ export default function ManageProducts() {
                 <span className="absolute -top-1 -right-1 h-2 w-2 bg-[#800000] rounded-full"></span>
               )}
             </div>
+          <div className="flex items-center gap-4">
             <button
-              onClick={() => document.getElementById('add-form').scrollIntoView({ behavior: 'smooth' })}
+              onClick={handleCleanupDuplicates}
+              className="border border-[#800000] text-[#800000] px-5 py-2 text-[10px] uppercase tracking-widest font-bold hover:bg-[#800000]/10 transition-all rounded-lg"
+            >
+              Purge Duplicates
+            </button>
+            <button
+              onClick={() => {
+                setIsEditing(false);
+                setNewProduct({ name: '', category: 'Outerwear', price: '', stock: '', discount: 0, description: '', image_url: '' });
+                document.getElementById('add-form').scrollIntoView({ behavior: 'smooth' });
+              }}
               className="bg-[#800000] text-white px-5 py-2 text-[10px] uppercase tracking-widest font-bold hover:bg-black transition-all rounded-lg shadow-md"
             >
               + Add New Product
             </button>
+          </div>
           </div>
         </header>
 
@@ -191,8 +263,8 @@ export default function ManageProducts() {
             {/* LEFT: Add New Product Form */}
             <section id="add-form" className="lg:col-span-1 bg-white rounded-2xl p-8 border border-zinc-100 shadow-sm sticky top-24">
               <div className="border-l-4 border-[#800000] pl-4 mb-6">
-                <h3 className="font-serif text-xl font-bold italic text-zinc-900">Curate New Piece</h3>
-                <p className="text-[10px] text-zinc-400 uppercase tracking-widest mt-1">Add to the collection</p>
+                <h3 className="font-serif text-xl font-bold italic text-zinc-900">{isEditing ? 'Revise Artifact' : 'Curate New Piece'}</h3>
+                <p className="text-[10px] text-zinc-400 uppercase tracking-widest mt-1">{isEditing ? `Modifying ID: ${editingId}` : 'Add to the collection'}</p>
               </div>
 
               <form onSubmit={handleAddProduct} className="space-y-5">
@@ -303,12 +375,26 @@ export default function ManageProducts() {
                   )}
                 </div>
 
-                <button
-                  type="submit"
-                  className="w-full bg-zinc-900 text-white py-4 text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-[#800000] transition-all rounded-lg"
-                >
-                  Publish to Boutique
-                </button>
+                <div className="flex gap-3">
+                  <button
+                    type="submit"
+                    className="flex-1 bg-zinc-900 text-white py-4 text-[10px] uppercase tracking-[0.2em] font-bold hover:bg-[#800000] transition-all rounded-lg"
+                  >
+                    {isEditing ? 'Sync Changes' : 'Publish to Boutique'}
+                  </button>
+                  {isEditing && (
+                    <button
+                      type="button"
+                      onClick={() => {
+                        setIsEditing(false);
+                        setNewProduct({ name: '', category: 'Outerwear', price: '', stock: '', discount: 0, description: '', image_url: '' });
+                      }}
+                      className="px-4 border border-zinc-200 rounded-lg text-zinc-400 hover:text-zinc-600 transition-all"
+                    >
+                      <span className="material-symbols-outlined">close</span>
+                    </button>
+                  )}
+                </div>
               </form>
             </section>
 
@@ -371,6 +457,7 @@ export default function ManageProducts() {
                         <th className="px-6 py-4 text-[9px] uppercase tracking-widest text-zinc-400 font-bold text-center">Stock</th>
                         <th className="px-6 py-4 text-[9px] uppercase tracking-widest text-zinc-400 font-bold text-right">Price</th>
                         <th className="px-6 py-4 text-[9px] uppercase tracking-widest text-zinc-400 font-bold text-center">Status</th>
+                        <th className="px-6 py-4 text-[9px] uppercase tracking-widest text-zinc-400 font-bold text-right">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -416,6 +503,24 @@ export default function ManageProducts() {
                             }`}>
                               {p.stock === 0 ? 'Out of Stock' : p.stock <= 5 ? 'Low Stock' : 'Active'}
                             </span>
+                          </td>
+                          <td className="px-6 py-4 text-right">
+                            <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                              <button 
+                                onClick={() => handleEditClick(p)}
+                                className="p-2 hover:bg-zinc-100 rounded-full text-zinc-400 hover:text-[#800000] transition-all"
+                                title="Edit"
+                              >
+                                <span className="material-symbols-outlined text-base">edit</span>
+                              </button>
+                              <button 
+                                onClick={() => handleDeleteProduct(p.id)}
+                                className="p-2 hover:bg-red-50 rounded-full text-zinc-400 hover:text-red-600 transition-all"
+                                title="Delete"
+                              >
+                                <span className="material-symbols-outlined text-base">delete</span>
+                              </button>
+                            </div>
                           </td>
                         </tr>
                       ))}

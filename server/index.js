@@ -119,7 +119,54 @@ app.post('/api/orders', async (req, res) => {
   }
 });
 
-// 6. GET USER ORDERS (Detailed)
+// 6. UPDATE PRODUCT (Admin Only)
+app.put('/api/products/:id', async (req, res) => {
+  const { id } = req.params;
+  const { name, description, category, price, discount, image_url, stock } = req.body;
+  try {
+    const updatedProduct = await db.query(
+      'UPDATE products SET name = $1, description = $2, category = $3, price = $4, discount = $5, image_url = $6, stock = $7 WHERE id = $8 RETURNING *',
+      [name, description, category, price, discount, image_url, stock, id]
+    );
+    if (updatedProduct.rows.length === 0) return res.status(404).json({ message: 'Product not found' });
+    res.json(updatedProduct.rows[0]);
+  } catch (err) {
+    res.status(500).json({ message: 'Error updating product' });
+  }
+});
+
+// 7. DELETE PRODUCT (Admin Only)
+app.delete('/api/products/:id', async (req, res) => {
+  const { id } = req.params;
+  try {
+    const result = await db.query('DELETE FROM products WHERE id = $1 RETURNING *', [id]);
+    if (result.rows.length === 0) return res.status(404).json({ message: 'Product not found' });
+    res.json({ message: 'Product removed from collection', product: result.rows[0] });
+  } catch (err) {
+    res.status(500).json({ message: 'Error removing product' });
+  }
+});
+
+// 8. REMOVE DUPLICATES (Cleanup Utility)
+app.post('/api/products/cleanup', async (req, res) => {
+  try {
+    // Keeps the one with the highest ID (latest) for each name
+    const result = await db.query(`
+      DELETE FROM products 
+      WHERE id NOT IN (
+        SELECT MAX(id) 
+        FROM products 
+        GROUP BY name
+      )
+      RETURNING *
+    `);
+    res.json({ message: `Purged ${result.rows.length} duplicate entries`, purged: result.rows });
+  } catch (err) {
+    res.status(500).json({ message: 'Error during cleanup' });
+  }
+});
+
+// 9. GET USER ORDERS (Detailed)
 app.get('/api/orders/user/:id', async (req, res) => {
   const { id } = req.params;
   try {
@@ -128,7 +175,7 @@ app.get('/api/orders/user/:id', async (req, res) => {
               json_agg(json_build_object('name', p.name, 'quantity', oi.quantity, 'price', oi.price)) as items
        FROM orders o
        JOIN order_items oi ON o.id = oi.order_id
-       JOIN products p ON oi.product_id = p.id
+       LEFT JOIN products p ON oi.product_id = p.id
        WHERE o.user_id = $1
        GROUP BY o.id
        ORDER BY o.created_at DESC`,
