@@ -1,5 +1,5 @@
 const { Pool } = require('pg');
-require('dotenv').config({ path: require('path').join(__dirname, '..', '.env') });
+require('dotenv').config({ path: require('path').join(__dirname, '..', '..', '.env') });
 
 // PostgreSQL Connection configuration
 // These variables will be pulled from your .env file

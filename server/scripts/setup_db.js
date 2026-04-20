@@ -1,13 +1,13 @@
 const fs = require('fs');
 const path = require('path');
-const db = require('./db');
-require('dotenv').config();
+const db = require('../config/db');
+require('dotenv').config({ path: path.join(__dirname, '..', '..', '.env') });
 
 async function setupDatabase() {
   console.log('--- INITIATING MONOGRAPH REGISTRY ARCHITECTURAL SETUP ---');
   try {
     // Read the SQL Blueprint
-    const sqlPath = path.join(__dirname, 'monograph_schema.sql');
+    const sqlPath = path.join(__dirname, '..', 'sql', 'monograph_schema.sql');
     const sql = fs.readFileSync(sqlPath, 'utf8');
 
     // Execute the Blueprint in segments (Postgres pg-pool.query handles multiple commands usually but split for safety)
